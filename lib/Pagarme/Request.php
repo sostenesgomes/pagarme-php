@@ -49,7 +49,15 @@ class PagarMe_Request extends PagarMe {
 			throw new PagarMe_Exception($e->getMessage());
 		}
 
+	}
 
+
+	public function setParameters($parameters) {
+		$this->parameters = $parameters;
+	}
+
+	public function getParameters() {
+		return $this->parameters;
 	}
 }
 ?>
