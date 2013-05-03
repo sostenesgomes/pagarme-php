@@ -6,7 +6,7 @@ class PagarMe_Request extends PagarMe {
 
 	private $path;
 	private $method;
-	private $parameters;
+	private $parameters = Array();
 	private $headers;
 	private $live;
 
@@ -14,7 +14,6 @@ class PagarMe_Request extends PagarMe {
 		$this->method = $method;
 		$this->path = $path;
 		$this->live = $live;	
-		$this->parameters = Array();
 	}
 	public function run() {
 		try {
@@ -23,13 +22,15 @@ class PagarMe_Request extends PagarMe {
 				throw new Exception("You need to configure a API key before performing requests.");
 			}
 
-			array_merge($this->parameters, array( "api_key" => PagarMe::api_key, "live" => PagarMe::live));
 
+			$this->parameters = array_merge($this->parameters, array( "api_key" => PagarMe::api_key, "live" => PagarMe::live));
+			
 			try {
+
 				$client = new RestClient(array("method" => $this->method, "url" => $this->full_api_url($this->path), "headers" => $this->headers, "parameters" => $this->parameters ));	
 				$response = $client->run();
 				if($response["code"] == 200) {
-					$decode = json_decode($response["body"]);
+					$decode = json_decode($response["body"], true);
 					if(!$decode) {
 						throw new Exception("Couldn't decode json from response");
 					} else {

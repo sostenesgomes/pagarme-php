@@ -17,10 +17,6 @@ class RestClient {
 		try {
 			$this->curl = curl_init();
 
-			curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, false);
-			curl_setopt($this->curl, CURLOPT_SSLVERSION, 3);
-			curl_setopt($this->curl, CURLOPT_SSL_VERIFYHOST, false);
 
 			$this->headers = array(
     'Accept: application/json',
@@ -31,11 +27,16 @@ class RestClient {
 				throw new Exception("You must set the URL to make a request.");
 			} else {
 				$this->url = $params["url"];
-				curl_setopt($this->curl, CURLOPT_URL, $this->url);	
 			}
 
+			curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($this->curl, CURLOPT_SSLVERSION, 3);
+			curl_setopt($this->curl, CURLOPT_SSL_VERIFYHOST, false);
+			
+
 			if($params["parameters"]) {
-				array_merge($this->parameters, $params["parameters"]);
+				$this->parameters = array_merge($this->parameters, $params["parameters"]);
 			}
 
 			if($params["method"]) {
@@ -51,6 +52,7 @@ class RestClient {
 					break;
 				case 'get':
 				case 'GET':
+					$this->url .= '?'.http_build_query($this->parameters);
 					break;
 				case 'put':
 				case 'PUT':
@@ -68,8 +70,12 @@ class RestClient {
 			}
 
 
+	
+				curl_setopt($this->curl, CURLOPT_URL, $this->url);	
+
+
 			if($params["headers"]) {
-				array_merge($this->headers, $params["headers"]);
+				$this->headers = array_merge($this->headers, $params["headers"]);
 				curl_setopt($this->curl, CURLOPT_HTTPHEADER, $this->headers);
 			}
 

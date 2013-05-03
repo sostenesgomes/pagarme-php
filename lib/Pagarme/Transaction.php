@@ -1,5 +1,6 @@
 <?php
 
+require 'Request.php';
 
 class PagarMe_Transaction extends PagarMe {
 
@@ -33,7 +34,7 @@ class PagarMe_Transaction extends PagarMe {
 			$this->amount = $first_parameter["amount"];
 			$this->card_number = $first_parameter["card_number"];
 			$this->card_holder_name = $first_parameter["card_holder_name"];
-			$this->card_expiracy_mont = $first_parameter["card_expiracy_month"];
+			$this->card_expiracy_month = $first_parameter["card_expiracy_month"];
 			$this->card_expiracy_year = $first_parameter["card_expiracy_year"];
 			$this->card_cvv = $first_parameter["card_cvv"];
 			$this->installments = $first_parameter["installments"];
@@ -42,11 +43,13 @@ class PagarMe_Transaction extends PagarMe {
 			}
 		}
 
-		$this->update_fields_from_response($server_response);
+		if($server_response) { 
+			$this->update_fields_from_response($server_response);
+		}
 	}
 	
 
-	public function find_by_id($id) {
+	public static function find_by_id($id) {
 	
 		$request = new PagarMe_Request('/transactions/'.$id, 'GET');
 		$response = $request->run();
@@ -55,12 +58,12 @@ class PagarMe_Transaction extends PagarMe {
 
 
 
-	public function all($page = 1, $count = 10) {
+	public static function all($page = 1, $count = 10) {
 		$request = new PagarMe_Request('/transactions','GET');
 		$request->setParameters(array("page" => $page, "count" => $count));
 		$response = $request->run();
 		$return_array = Array();
-		foreach($reponse as $r) {
+		foreach($response as $r) {
 			$return_array[] = new PagarMe_Transaction(0, $r);
 		}
 
@@ -70,14 +73,16 @@ class PagarMe_Transaction extends PagarMe {
 	public function charge() {
 
 		if(!$this->card_hash) {
-			$validation_error = $this->error_in_transaction();
-			$this->generate_card_hash();
+			#$validation_error = $this->error_in_transaction();
+			$this->card_hash = $this->generate_card_hash();
 		}
 
-		$request = new PagarMe_Request('/transactions', 'POST');
+		$request = new PagarMe_Request('/transactions', 'POST', $this->live);
 		$request->setParameters(array("amount" => $this->amount, "installments" => $this->installments, "card_hash" => $this->card_hash ));	
 		$response = $request->run();
 		$this->update_fields_from_response($response);
+
+		return $response;
 	}
 
 
@@ -91,7 +96,7 @@ class PagarMe_Transaction extends PagarMe {
 				throw new Exception("Transaction needs to be approved to be chargebacked.");
 			}
 
-			$request = new PagarMe_Request('/transactions/'.$this->id.'/chargeback/', 'POST', $this->live);
+			$request = new PagarMe_Request('/transactions/'.$this->id, 'DELETE', $this->live);
 			$response = $request->run();
 			$this->update_fields_from_response($response);
 			
@@ -103,7 +108,6 @@ class PagarMe_Transaction extends PagarMe {
 
 
 	private function card_data_parameters() {
-		
 		return array(
 			"card_number" => $this->card_number,
 			"card_holder_name" => $this->card_holder_name,
@@ -114,14 +118,20 @@ class PagarMe_Transaction extends PagarMe {
 
 	}
 
+
+	private function error_in_transaction() {
+	
+		return true;
+	}
+
 	
 	private function generate_card_hash() {
 	
-		$request = new PagarMe_Request('/transactions/card_hash_key', 'GET', $this->live);
+		$request = new PagarMe_Request('/transactions/card_hash_key','GET', $this->live);
 		$response = $request->run();
 		$key = openssl_get_publickey($response['public_key']);
-		$encrypt = openssl_public_encrypt(base64_encode(http_build_query($this->card_data_parameters())));
-		return $response['id'].'_'.$encrypt;
+		openssl_public_encrypt(http_build_query($this->card_data_parameters()), $encrypt, $key);
+		return $response['id'].'_'.base64_encode($encrypt);
 
 	}
 
@@ -133,7 +143,7 @@ class PagarMe_Transaction extends PagarMe {
 		$this->amount = $r["amount"];
 		$this->live = $r["live"];
 		$this->card_holder_name = $r["card_holder_name"];
-		$this->installments = (i$r["installments"]) ? 1 : $r["installments"];
+		$this->installments = (!$r["installments"]) ? 1 : $r["installments"];
 		$this->id = $r["id"];
 	}
 
