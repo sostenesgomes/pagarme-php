@@ -146,8 +146,32 @@ class PagarMe_Transaction extends PagarMe {
 		$this->installments = (!$r["installments"]) ? 1 : $r["installments"];
 		$this->id = $r["id"];
 	}
+	
 
 
+	// Setters and getters
+	
+
+function setAmount($amount) { $this->amount = $amount; }
+function getAmount() { return $this->amount; }
+function setCardNumber($card_number) { $this->card_number = $card_number; }
+function getCardNumber() { return $this->card_number; }
+function setCardHolderName($card_holder_name) { $this->card_holder_name = $card_holder_name; }
+function getCardHolderName() { return $this->card_holder_name; }
+function setCardExpiracyMonth($card_expiracy_month) { $this->card_expiracy_month = $card_expiracy_month; }
+function getCardExpiracyMonth() { return $this->card_expiracy_month; }
+function setCardExpiracyYear($card_expiracy_year) { $this->card_expiracy_year = $card_expiracy_year; }
+function getCardExpiracyYear() { return $this->card_expiracy_year; }
+function setCardCvv($card_cvv) { $this->card_cvv = $card_cvv; }
+function getCardCvv() { return $this->card_cvv; }
+function setLive($live) { $this->live = $live; }
+function getLive() { return $this->live; }
+function setCardHash($card_hash) { $this->card_hash = $card_hash; }
+function getCardHash() { return $this->card_hash; }
+function setInstallments($installments) { $this->installments = $installments; }
+function getInstallments() { return $this->installments; }
+function getStatus() { return $this->status; }
+function setStatus($status) { $this->status = $status;}
 }
 
 ?>

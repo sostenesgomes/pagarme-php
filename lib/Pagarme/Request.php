@@ -18,12 +18,12 @@ class PagarMe_Request extends PagarMe {
 	public function run() {
 		try {
 
-			if(!self::api_key) {
-				throw new Exception("You need to configure a API key before performing requests.");
+			if(!parent::getApiKey()) {
+				throw new Exception("You need to configure API key before performing requests.");
 			}
 
 
-			$this->parameters = array_merge($this->parameters, array( "api_key" => PagarMe::api_key, "live" => PagarMe::live));
+			$this->parameters = array_merge($this->parameters, array( "api_key" => parent::getApiKey(),  "live" => PagarMe::live));
 			
 			try {
 
