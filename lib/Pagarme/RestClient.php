@@ -1,5 +1,6 @@
 <?php
-class RestClient_Exception extends Exception {
+
+class RestClient_Exception extends PagarMe_Exception {
 
 }
 
