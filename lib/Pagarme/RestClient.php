@@ -65,6 +65,7 @@ class RestClient {
 				case 'DELETE':
 					$this->method = HTTP_METH_DELETE;
 					curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
+					curl_setopt($this->curl, CURLOPT_POSTFIELDS, $this->parameters);
 					break;
 
 				}

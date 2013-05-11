@@ -136,12 +136,15 @@ class PagarMe_Transaction extends PagarMe {
 			return "Invalid card holder name.";
 		}
 
-		else if($this->card_expiracy_month <= 0 || $this->card_expiracy_month > 	12) {
+		else if($this->card_expiracy_month <= 0 || $this->card_expiracy_month > 12) {
 			return "Invalid expiracy month.";
 		}
 
 		else if($this->card_expiracy_year <= 0) {
 			return "Invalid expiracy year";
+		}
+		else if($this->card_expiracy_year < substr(date('Y'),-2)) {
+			return "Card already expired";
 		}
 
 		else if(strlen($this->card_cvv) < 3  || strlen($this->card_cvv) > 4) {
