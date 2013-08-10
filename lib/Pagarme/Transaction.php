@@ -3,7 +3,7 @@
 
 class PagarMe_Transaction extends PagarMe {
 
-	private $amount, $card_number, $card_holder_name, $card_expiracy_month, $card_expiracy_year, $card_cvv, $live, $card_hash, $installments;
+	private $amount, $card_number, $card_holder_name, $card_expiracy_month, $card_expiracy_year, $card_cvv, $live, $card_hash, $installments, $postback_url;
 
 	private $statuses_codes;
 
@@ -24,6 +24,8 @@ class PagarMe_Transaction extends PagarMe {
 
 		$this->amount = $this->card_number = $this->card_expicary_month = $this->card_expiracy_year = $this->card_cvv = "";
 
+		$this->postback_url = null;
+
 
 		if(gettype($first_parameter) == "string") {
 
@@ -37,6 +39,7 @@ class PagarMe_Transaction extends PagarMe {
 			$this->card_expiracy_year = $first_parameter["card_expiracy_year"];
 			$this->card_cvv = $first_parameter["card_cvv"];
 			$this->installments = $first_parameter["installments"];
+			$this->postback_url = $first_parameter['postback_url'];
 			if($first_parameter["live"]) {
 				$this->live = $first_parameter["live"];
 			}
@@ -81,7 +84,7 @@ class PagarMe_Transaction extends PagarMe {
 			}
 
 			$request = new PagarMe_Request('/transactions', 'POST', $this->live);
-			$request->setParameters(array("amount" => $this->amount, "installments" => $this->installments, "card_hash" => $this->card_hash ));	
+			$request->setParameters(array("amount" => $this->amount, "installments" => $this->installments, "card_hash" => $this->card_hash, 'postback_url' => $this->postback_url ));	
 			$response = $request->run();
 			$this->update_fields_from_response($response);
 
