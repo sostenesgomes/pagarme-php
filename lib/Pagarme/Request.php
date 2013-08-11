@@ -20,7 +20,8 @@ class PagarMe_Request extends PagarMe {
 			}
 
 
-			$this->parameters = array_merge($this->parameters, array( "api_key" => parent::getApiKey(),  "live" => PagarMe::live));
+			$this->parameters = array_merge($this->parameters, array( "api_key" => parent::getApiKey());
+			$this->headers = (PagarMe::live) ? array("X-Live" => 1) : array();
 			try {
 
 				$client = new RestClient(array("method" => $this->method, "url" => $this->full_api_url($this->path), "headers" => $this->headers, "parameters" => $this->parameters ));	
