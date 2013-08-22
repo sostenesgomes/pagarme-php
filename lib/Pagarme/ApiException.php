@@ -1,9 +1,7 @@
 <?php
 
-class PagarMe_ApiError extends PagarMe_Exception {
-
-
+class PagarMe_ApiError extends PagarMe_Exception 
+{
 }
-
 
 ?>

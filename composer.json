@@ -1,0 +1,14 @@
+{
+	"require": {
+		"php": ">5.2",
+		"ext-curl":"*",
+		"ext-json":"*",
+		"ext-mbstring":"*"
+	},
+	"require-dev": {
+		 "vierbergenlars/simpletest": "*"
+	},
+	"autoload": { 
+		"classmap":["lib/PagarMe"]
+	}
+}

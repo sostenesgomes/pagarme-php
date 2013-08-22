@@ -1,0 +1,74 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+    ],
+    "hash": "763aa3ee6a5c6d414dde86490a3bd289",
+    "packages": [
+
+    ],
+    "packages-dev": [
+        {
+            "name": "vierbergenlars/simpletest",
+            "version": "v1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vierbergenlars/simpletest.git",
+                "reference": "6d8cf373988693472d45ee03deb2a57ec7e34c69"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vierbergenlars/simpletest/zipball/6d8cf373988693472d45ee03deb2a57ec7e34c69",
+                "reference": "6d8cf373988693472d45ee03deb2a57ec7e34c69",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Marcus Baker",
+                    "homepage": "http://sourceforge.net/users/lastcraft"
+                },
+                {
+                    "name": "Perrick Penet",
+                    "homepage": "http://sourceforge.net/users/pp11"
+                }
+            ],
+            "description": "Unit testing for PHP",
+            "keywords": [
+                "SimpleTest",
+                "test",
+                "testing",
+                "unittest"
+            ],
+            "time": "2012-05-18 10:44:55"
+        }
+    ],
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": [
+
+    ],
+    "platform": {
+        "php": ">5.2",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*"
+    },
+    "platform-dev": [
+
+    ]
+}
