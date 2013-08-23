@@ -14,7 +14,13 @@ require(dirname(__FILE__) . '/Pagarme/TransactionException.php');
 require(dirname(__FILE__) . '/Pagarme/ApiException.php');
 require(dirname(__FILE__) . '/Pagarme/RestClient.php');
 require(dirname(__FILE__) . '/Pagarme/Request.php');
+require(dirname(__FILE__) . '/Pagarme/Model.php');
+require(dirname(__FILE__) . '/Pagarme/TransactionCommon.php');
 require(dirname(__FILE__) . '/Pagarme/Transaction.php');
+require(dirname(__FILE__). '/Pagarme/Plan.php');
+require(dirname(__FILE__) . '/Pagarme/Subscription.php');
+
+
 
 
 

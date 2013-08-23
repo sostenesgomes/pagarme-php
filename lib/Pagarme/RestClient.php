@@ -1,12 +1,12 @@
 <?php
 
-class RestClient_Exception extends PagarMe_Exception {
+class RestClient_Exception extends PagarMe_Exception 
+{
 
 }
 
-
-class RestClient {
-
+class RestClient 
+{
 	private $http_client;
 	private $method;
 	private $url;
@@ -14,15 +14,14 @@ class RestClient {
 	private $parameters =  Array();
 	private $curl;
 
-	public function __construct($params = array()) {
+	public function __construct($params = array()) 
+	{
 		try {
 			$this->curl = curl_init();
-
-
 			$this->headers = array(
-    'Accept: application/json',
-    'Content-Type: application/json',
-);
+				'Accept: application/json',
+				'Content-Type: application/json',
+			);
 
 			if(!$params["url"]) {
 				throw new Exception("You must set the URL to make a request.");
@@ -34,7 +33,6 @@ class RestClient {
 			curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, false);
 			curl_setopt($this->curl, CURLOPT_SSLVERSION, 3);
 			curl_setopt($this->curl, CURLOPT_SSL_VERIFYHOST, false);
-			
 
 			if($params["parameters"]) {
 				$this->parameters = array_merge($this->parameters, $params["parameters"]);
@@ -44,7 +42,7 @@ class RestClient {
 				$this->method = $params["method"];
 			}
 
-			 if ($this->method){
+			if ($this->method){
 				switch($this->method) {
 				case 'post':
 				case 'POST':
@@ -71,16 +69,12 @@ class RestClient {
 				}
 			}
 
-
-	
-				curl_setopt($this->curl, CURLOPT_URL, $this->url);	
-
+			curl_setopt($this->curl, CURLOPT_URL, $this->url);	
 
 			if($params["headers"]) {
 				$this->headers = array_merge($this->headers, $params["headers"]);
 				curl_setopt($this->curl, CURLOPT_HTTPHEADER, $this->headers);
 			}
-
 
 		} catch(HttpException $e) {
 			throw new Exception($e->message);
@@ -89,19 +83,19 @@ class RestClient {
 	}
 
 
-	public function run() {
+	public function run() 
+	{
 		try {
-		$response = curl_exec($this->curl);
-		$error = curl_error($this->curl);
-		if($error) {
-			throw new Exception("error: ".$error);
-		}
-		$code = curl_getinfo($this->curl, CURLINFO_HTTP_CODE);
-		curl_close($this->curl);
-		return array("code" => $code, "body" => $response);
+			$response = curl_exec($this->curl);
+			$error = curl_error($this->curl);
+			if($error) {
+				throw new Exception("error: ".$error);
+			}
+			$code = curl_getinfo($this->curl, CURLINFO_HTTP_CODE);
+			curl_close($this->curl);
+			return array("code" => $code, "body" => $response);
 		} catch(Exception $e) {
 			throw new PagarMe_Exception($e->getMessage());
-
 		}	
 	}
 
