@@ -82,7 +82,7 @@ class PagarMe_Transaction extends PagarMe_TransactionCommon {
 				throw new Exception('Boletos can\'t be chargebacked');
 			}
 
-			$request = new PagarMe_Request('/transactions/'.$this->id, 'DELETE');
+			$request = new PagarMe_Request('/transactions/'.$this->id . '/refund', 'POST');
 			$response = $request->run();
 			$this->updateFieldsFromResponse($response);
 

@@ -13,7 +13,7 @@ class PagarMe_TransactionTest extends PagarMeTestCase {
 		$transaction = self::createTestTransaction();
 		$transaction->charge();
 		$transaction->chargeback();
-		$this->assertEqual($transaction->getStatus(), 'chargebacked');
+		$this->assertEqual($transaction->getStatus(), 'refunded');
 	}
 
 	public function testCreation() {

@@ -14,7 +14,7 @@ class PagarMe_SubscriptionTest extends PagarMeTestCase {
 		// $plan->create();
 		// $subscription->setPlan($plan);
 		$subscription->create();
-		$subscription2 = PagarMe_Subscription::findById($subscription->getId());
+		// $subscription2 = PagarMe_Subscription::findById($subscription->getId());
 		// $this->assertEqual($subscription2->getPlan()->getId(), $plan->getId());
 	}
 }

@@ -69,9 +69,9 @@ class PagarMe_Subscription extends PagarMe_TransactionCommon {
 
 	public function updateFieldsFromResponse($r) {
 		parent::updateFieldsFromResponse($r);
-		if($r['plan_id']) {
-			$this->plan = PagarMe_Plan::findById($r['plan_id']);
-		}	
+		// if($r['plan_id']) {
+		// 	$this->plan = PagarMe_Plan::findById($r['plan_id']);
+		// }	
 	}
 
 	public function getPlan() {
