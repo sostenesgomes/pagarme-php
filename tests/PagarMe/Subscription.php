@@ -24,7 +24,7 @@ class PagarMe_SubscriptionTest extends PagarMeTestCase {
 		$this->assertEqual($subscription2->getPlan()->getId(), $plan->getId());
 	}
 
-	public function testCreate() {
+	public function testCharge() {
 		$subscription = self::createTestSubscription();
 		$subscription->create();
 		$subscription->charge(3600);

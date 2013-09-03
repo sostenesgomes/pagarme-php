@@ -57,7 +57,7 @@ class PagarMe_Subscription extends PagarMe_TransactionCommon {
 			if($this->plan) {
 				throw new Exception("Subscription nao eh variavel.");
 			}
-			$request = PagarMe_Request(self::getUrl(). '/' . $this->id, 'POST');
+			$request = new PagarMe_Request(self::getUrl(). '/' . $this->id, 'POST');
 			$request->setParameters(array('amount' => $this->amount));
 			$response = $request->run();
 			$this->updateFieldsFromResponse($response);
