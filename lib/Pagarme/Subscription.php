@@ -3,11 +3,10 @@ class PagarMe_Subscription extends PagarMe_TransactionCommon {
 	protected $plan, $current_period_start, $current_period_end, $customer_email;	
 
 	public function __construct($first_parameter = 0, $server_response = 0) { 
-		self::$root_url = '/subscriptions';
 		$this->customer_email = ($first_parameter['customer_email']) ? $first_parameter['customer_email'] : '';
 		$this->payment_method = ($first_parameter['payment_method']) ? $first_parameter['payment_method'] : 'credit_card';
 		$this->postback_url = ($first_parameter['postback_url']) ? $first_parameter['postback_url'] : ''; 
-		$this->plan = ($first_parameter['plan']) ? $first_parameter['plan'] : '';
+		$this->plan = ($first_parameter['plan']) ? $first_parameter['plan'] : null;
 		$this->amount = $first_parameter["amount"] ? $first_parameter['amount'] : '';
 		$this->card_number = ($first_parameter["card_number"]) ? $first_parameter['card_number']  : '';
 		$this->card_holder_name = ($first_parameter["card_holder_name"]) ? $first_parameter['card_holder_name'] : '';
@@ -31,7 +30,7 @@ class PagarMe_Subscription extends PagarMe_TransactionCommon {
 				throw new Exception("Subscription já criada");
 			}
 
-			$request = new PagarMe_Request(self::$root_url, 'POST');
+			$request = new PagarMe_Request(self::getUrl(),'POST');
 			$parameters = array(
 				'amount' => $this->amount,
 				'payment_method' => $this->payment_method,
@@ -58,7 +57,7 @@ class PagarMe_Subscription extends PagarMe_TransactionCommon {
 			if($this->plan) {
 				throw new Exception("Subscription nao eh variavel.");
 			}
-			$request = PagarMe_Request(self::$root_url . '/' . $this->id, 'POST');
+			$request = PagarMe_Request(self::getUrl(). '/' . $this->id, 'POST');
 			$request->setParameters(array('amount' => $this->amount));
 			$response = $request->run();
 			$this->updateFieldsFromResponse($response);
@@ -69,13 +68,13 @@ class PagarMe_Subscription extends PagarMe_TransactionCommon {
 
 	public function updateFieldsFromResponse($r) {
 		parent::updateFieldsFromResponse($r);
-		// if($r['plan_id']) {
-		// 	$this->plan = PagarMe_Plan::findById($r['plan_id']);
-		// }	
+		if($r['plan']) {
+			$this->plan = new PagarMe_Plan(0, $r['plan']);
+		}	
 	}
 
 	public function getPlan() {
-		return $this->plan;	
+		return $this->plan;
 	}
 
 	public function setPlan($plan) {

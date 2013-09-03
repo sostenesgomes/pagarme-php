@@ -19,7 +19,7 @@ abstract class PagarMeTestCase extends UnitTestCase {
 
 	protected static function createTestPlan(array $attributes = array()) {
 		authorizeFromEnv();		
-		return new PagarMe_Plan(
+		return new PagarMe_Plan($attributes +
 			array(
 				'amount' => 1000,
 				'days' => '30',

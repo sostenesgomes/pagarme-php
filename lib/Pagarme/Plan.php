@@ -5,7 +5,6 @@ class PagarMe_Plan extends PagarMe_Model
 	private $id, $amount, $days, $name, $trial_days;
 
 	public function __construct($firstParameter = 0, $serverResponse = 0) {
-		self::$root_url = '/plans';	
 
 		if($firstParameter) { 
 			$this->amount = ($firstParameter['amount']) ? $firstParameter['amount'] : 0;
@@ -22,7 +21,7 @@ class PagarMe_Plan extends PagarMe_Model
 	{
 		try {
 			$this->validate();
-			$request = new PagarMe_Request(self::$root_url, 'POST');
+			$request = new PagarMe_Request(self::getUrl(), 'POST');
 			$request->setParameters(array('amount' => $this->amount, 'days' => $this->days, 'name' => $this->name, 'trial_days' => $this->trial_days));
 			$response = $request->run();
 			$this->updateFieldsFromResponse($response);
@@ -38,7 +37,7 @@ class PagarMe_Plan extends PagarMe_Model
 			if(!$this->id) {
 				throw new Exception("O plano precisa estar criado para ser editado.");
 			}
-			$request = new PagarMe_Request(self::$root_url . '/' . $this->id, 'PUT');
+			$request = new PagarMe_Request(self::getUrl(). '/' . $this->id, 'PUT');
 			$request->setParameters(array('name' => $this->name, 'trial_days' => $this->trial_days));
 			$response = $request->run();
 			$this->updateFieldsFromResponse($response);

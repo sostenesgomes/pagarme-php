@@ -7,7 +7,6 @@ class PagarMe_Transaction extends PagarMe_TransactionCommon {
 
 	public function __construct($first_parameter = 0, $server_response = 0) 
 	{
-		$this->root_url = '/transactions';
 
 		$this->status = 'local';
 
@@ -55,7 +54,7 @@ class PagarMe_Transaction extends PagarMe_TransactionCommon {
 				throw new Transaction_Exception("Transaction already charged!");
 			}
 
-			$request = new PagarMe_Request('/transactions', 'POST');
+			$request = new PagarMe_Request(self::getUrl(), 'POST');
 			$request->setParameters(array("amount" => $this->amount, "installments" => $this->installments, "card_hash" => ($this->payment_method == 'credit_card') ? $this->card_hash : null, 'postback_url' => $this->postback_url ));	
 			$response = $request->run();
 			$this->updateFieldsFromResponse($response);
@@ -82,7 +81,7 @@ class PagarMe_Transaction extends PagarMe_TransactionCommon {
 				throw new Exception('Boletos can\'t be chargebacked');
 			}
 
-			$request = new PagarMe_Request('/transactions/'.$this->id . '/refund', 'POST');
+			$request = new PagarMe_Request(self::getUrl().'/'.$this->id . '/refund', 'POST');
 			$response = $request->run();
 			$this->updateFieldsFromResponse($response);
 
