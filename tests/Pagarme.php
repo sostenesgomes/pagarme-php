@@ -26,7 +26,7 @@ function exception_error_handler($errno, $errstr, $errfile, $errline) {
 set_error_handler('exception_error_handler');
 // error_reporting(E_ALL | E_STRICT);
 
-require_once(dirname(__FILE__) . '/../lib/Pagarme.php');
+require_once(dirname(__FILE__) . '../../Pagarme.php');
 require_once(dirname(__FILE__) . '/PagarMe/TestCase.php');
 require_once(dirname(__FILE__) . '/PagarMe/Transaction.php');
 require_once(dirname(__FILE__) . '/PagarMe/Plan.php');

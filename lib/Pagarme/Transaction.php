@@ -66,19 +66,19 @@ class PagarMe_Transaction extends PagarMe_TransactionCommon {
 		}
 	}
 
-	public function chargeback() 
+	public function refund() 
 	{
 		try {
-			if($this->status == 'chargebacked') {
-				throw new Exception("Transaction already chargebacked!");
+			if($this->status == 'refunded') {
+				throw new Exception("Transaction already refunded!");
 			}
 
 			if($this->status != 'paid') {
-				throw new Exception("Transaction needs to be paid to be chargebacked.");
+				throw new Exception("Transaction needs to be paid to be refunded.");
 			}
 
 			if($this->payment_method != 'credit_card') {
-				throw new Exception('Boletos can\'t be chargebacked');
+				throw new Exception('Boletos can\'t be refunded');
 			}
 
 			$request = new PagarMe_Request(self::getUrl().'/'.$this->id . '/refund', 'POST');

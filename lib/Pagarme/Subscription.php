@@ -1,6 +1,6 @@
 <?php
 class PagarMe_Subscription extends PagarMe_TransactionCommon {
-	protected $plan, $current_period_start, $current_period_end, $customer_email;	
+	protected $plan, $current_period_start, $current_period_end, $customer_email, $transactions;	
 
 	public function __construct($first_parameter = 0, $server_response = 0) { 
 		$this->customer_email = ($first_parameter['customer_email']) ? $first_parameter['customer_email'] : '';
@@ -13,6 +13,7 @@ class PagarMe_Subscription extends PagarMe_TransactionCommon {
 		$this->card_expiracy_month = ($first_parameter["card_expiracy_month"]) ? $first_parameter['card_expiracy_month'] : '';
 		$this->card_expiracy_year = ($first_parameter["card_expiracy_year"]) ? $first_parameter['card_expiracy_year'] : '';
 		$this->card_cvv = $first_parameter["card_cvv"] ? $first_parameter['card_cvv'] : '';
+		$this->transactions = Array();
 
 		if($server_response) {
 			$this->updateFieldsFromResponse($server_response);
@@ -57,8 +58,9 @@ class PagarMe_Subscription extends PagarMe_TransactionCommon {
 			if($this->plan) {
 				throw new Exception("Subscription nao eh variavel.");
 			}
+			$this->setAmount($amount);
 			$request = new PagarMe_Request(self::getUrl(). '/' . $this->id, 'POST');
-			$request->setParameters(array('amount' => $this->amount));
+			$request->setParameters(array('amount' => $this->getAmount()));
 			$response = $request->run();
 			$this->updateFieldsFromResponse($response);
 		} catch(Exception $e) {
@@ -71,6 +73,11 @@ class PagarMe_Subscription extends PagarMe_TransactionCommon {
 		if($r['plan']) {
 			$this->plan = new PagarMe_Plan(0, $r['plan']);
 		}	
+		if($r['transactions']) {
+			foreach($r['transactions'] as $transaction) {
+				$this->transactions[] = new PagarMe_Transaction(0, $transaction);
+			}
+		}
 	}
 
 	public function getPlan() {
@@ -79,6 +86,14 @@ class PagarMe_Subscription extends PagarMe_TransactionCommon {
 
 	public function setPlan($plan) {
 		$this->plan = $plan;
+	}
+
+	public function getTransactions(){
+		return $this->transactions;
+	}
+
+	public function setTransactions($transactions) {
+		$this->transactions = $transactions;
 	}
 }
 ?>
