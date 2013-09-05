@@ -29,7 +29,6 @@ class PagarMe_SubscriptionTest extends PagarMeTestCase {
 		$subscription->create();
 		$subscription->charge(3600);
 		$transactions = $subscription->getTransactions();
-		var_dump($transactions);
 
 		$this->assertEqual($transactions[1]->getAmount(), 3600);
 	}

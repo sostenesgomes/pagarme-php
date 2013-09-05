@@ -74,8 +74,8 @@ class PagarMe_Subscription extends PagarMe_TransactionCommon {
 			$this->plan = new PagarMe_Plan(0, $r['plan']);
 		}	
 		if($r['transactions']) {
-			foreach($r['transactions'] as $transaction) {
-				$this->transactions[] = new PagarMe_Transaction(0, $transaction);
+			for($i=0; $i < sizeof($r['transactions']); $i++) {
+				$this->transactions[$i] = new PagarMe_Transaction(0, $r['transactions'][$i]);
 			}
 		}
 	}
