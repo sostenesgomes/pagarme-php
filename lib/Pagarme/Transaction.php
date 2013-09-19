@@ -5,9 +5,8 @@ class PagarMe_Transaction extends PagarMe_TransactionCommon {
 
 	private $statuses_codes;
 
-	public function __construct($first_parameter = 0, $server_response = 0) 
+	public function __construct($first_parameter = 0) 
 	{
-
 		$this->status = 'local';
 
 		$this->installments = 1;
@@ -18,25 +17,7 @@ class PagarMe_Transaction extends PagarMe_TransactionCommon {
 
 		$this->payment_method = 'credit_card';
 
-		if(gettype($first_parameter) == "string") {
-
-			$this->card_hash = $first_parameter;
-		} elseif(gettype($first_parameter) == "array") {
-
-			$this->amount = $first_parameter["amount"] ? $first_parameter['amount'] : '';
-			$this->card_number = ($first_parameter["card_number"]) ? $first_parameter['card_number']  : '';
-			$this->card_holder_name = ($first_parameter["card_holder_name"]) ? $first_parameter['card_holder_name'] : '';
-			$this->card_expiracy_month = ($first_parameter["card_expiracy_month"]) ? $first_parameter['card_expiracy_month'] : '';
-			$this->card_expiracy_year = ($first_parameter["card_expiracy_year"]) ? $first_parameter['card_expiracy_year'] : '';
-			$this->card_cvv = $first_parameter["card_cvv"] ? $first_parameter['card_cvv'] : '';
-			$this->installments = ($first_parameter['installments']) ? $first_parameter["installments"] : '';
-			$this->postback_url = ($first_parameter['postback_url']) ? $first_parameter['postback_url'] : '';
-		}
-			$this->payment_method = ($first_parameter['payment_method']) ? $first_parameter['payment_method'] : 'credit_card';
-
-		if($server_response) { 
-			$this->updateFieldsFromResponse($server_response);
-		}
+		$this->updateFieldsFromResponse($first_parameter);
 	}
 
 	public function charge() 
@@ -54,8 +35,15 @@ class PagarMe_Transaction extends PagarMe_TransactionCommon {
 				throw new Transaction_Exception("Transaction already charged!");
 			}
 
+			$transactionInfo = array("amount" => $this->amount, "installments" => $this->installments, "card_hash" => ($this->payment_method == 'credit_card') ? $this->card_hash : null, 'postback_url' => $this->postback_url );
+
+			if($this->checkCustomerInformation()) {
+				$transactionInfo = $this->mergeCustomerInformation($transactionInfo);
+			}
+
 			$request = new PagarMe_Request(self::getUrl(), 'POST');
-			$request->setParameters(array("amount" => $this->amount, "installments" => $this->installments, "card_hash" => ($this->payment_method == 'credit_card') ? $this->card_hash : null, 'postback_url' => $this->postback_url ));	
+			$request->setParameters($transactionInfo);	
+
 			$response = $request->run();
 			$this->updateFieldsFromResponse($response);
 
@@ -65,6 +53,7 @@ class PagarMe_Transaction extends PagarMe_TransactionCommon {
 			throw new PagarMe_Exception($e->getMessage());
 		}
 	}
+
 
 	public function refund() 
 	{

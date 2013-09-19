@@ -3,6 +3,10 @@ abstract class PagarMe_Model extends Pagarme
 {	
 	protected static $root_url;
 
+	public function __construct($object = 0) {
+		$this->updateFieldsFromResponse($object);
+	}
+
 	public static function getUrl() {
 		$class = get_called_class();
 		$search = preg_match("/PagarMe_(.*)/",$class, $matches);
@@ -14,7 +18,7 @@ abstract class PagarMe_Model extends Pagarme
 		$request = new PagarMe_Request(self::getUrl() . '/' . $id, 'GET');
 		$response = $request->run();
 		$class = get_called_class(); 
-		return new $class(0, $response);
+		return new $class($response);
 	}
 
 	public static function all($page = 1, $count = 10) 
@@ -25,7 +29,7 @@ abstract class PagarMe_Model extends Pagarme
 		$return_array = Array();
 		$class = get_called_class(); 
 		foreach($response as $r) {
-			$return_array[] = new $class(0, $r);
+			$return_array[] = new $class($r);
 		}
 
 		return $return_array;

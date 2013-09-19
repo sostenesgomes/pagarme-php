@@ -20,9 +20,7 @@ require(dirname(__FILE__) . '/lib/Pagarme/Transaction.php');
 require(dirname(__FILE__). '/lib/Pagarme/Plan.php');
 require(dirname(__FILE__) . '/lib/Pagarme/Subscription.php');
 require(dirname(__FILE__) . '/lib/Pagarme/Postback.php');
-
-
-
-
-
+require(dirname(__FILE__) . '/lib/Pagarme/Customer.php');
+require(dirname(__FILE__) . '/lib/Pagarme/Address.php');
+require(dirname(__FILE__) . '/lib/Pagarme/Phone.php');
 ?>

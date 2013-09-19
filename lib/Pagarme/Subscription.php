@@ -2,22 +2,9 @@
 class PagarMe_Subscription extends PagarMe_TransactionCommon {
 	protected $plan, $current_period_start, $current_period_end, $customer_email, $transactions;	
 
-	public function __construct($first_parameter = 0, $server_response = 0) { 
-		$this->customer_email = ($first_parameter['customer_email']) ? $first_parameter['customer_email'] : '';
-		$this->payment_method = ($first_parameter['payment_method']) ? $first_parameter['payment_method'] : 'credit_card';
-		$this->postback_url = ($first_parameter['postback_url']) ? $first_parameter['postback_url'] : ''; 
-		$this->plan = ($first_parameter['plan']) ? $first_parameter['plan'] : null;
-		$this->amount = $first_parameter["amount"] ? $first_parameter['amount'] : '';
-		$this->card_number = ($first_parameter["card_number"]) ? $first_parameter['card_number']  : '';
-		$this->card_holder_name = ($first_parameter["card_holder_name"]) ? $first_parameter['card_holder_name'] : '';
-		$this->card_expiracy_month = ($first_parameter["card_expiracy_month"]) ? $first_parameter['card_expiracy_month'] : '';
-		$this->card_expiracy_year = ($first_parameter["card_expiracy_year"]) ? $first_parameter['card_expiracy_year'] : '';
-		$this->card_cvv = $first_parameter["card_cvv"] ? $first_parameter['card_cvv'] : '';
+	public function __construct($subscription = 0) { 
 		$this->transactions = Array();
-
-		if($server_response) {
-			$this->updateFieldsFromResponse($server_response);
-		}
+		$this->updateFieldsFromResponse($subscription);
 	}
 
 	public function create() {
@@ -70,12 +57,15 @@ class PagarMe_Subscription extends PagarMe_TransactionCommon {
 
 	public function updateFieldsFromResponse($r) {
 		parent::updateFieldsFromResponse($r);
+		$this->customer_email = ($r['customer_email']) ? $r['customer_email'] : 0;
+		$this->current_period_start = ($r['current_period_start']) ? $r['current_period_start'] : 0;
+		$this->current_period_end = ($r['current_period_end']) ? $r['current_period_end'] : 0;
 		if($r['plan']) {
-			$this->plan = new PagarMe_Plan(0, $r['plan']);
+			$this->plan = new PagarMe_Plan($r['plan']);
 		}	
 		if($r['transactions']) {
 			for($i=0; $i < sizeof($r['transactions']); $i++) {
-				$this->transactions[$i] = new PagarMe_Transaction(0, $r['transactions'][$i]);
+				$this->transactions[$i] = new PagarMe_Transaction($r['transactions'][$i]);
 			}
 		}
 	}

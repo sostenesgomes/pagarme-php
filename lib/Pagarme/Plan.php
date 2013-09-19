@@ -4,17 +4,8 @@ class PagarMe_Plan extends PagarMe_Model
 {
 	private $id, $amount, $days, $name, $trial_days;
 
-	public function __construct($firstParameter = 0, $serverResponse = 0) {
-
-		if($firstParameter) { 
-			$this->amount = ($firstParameter['amount']) ? $firstParameter['amount'] : 0;
-			$this->days = ($firstParameter['days']) ? $firstParameter['days'] : 0;
-			$this->name = ($firstParameter['name']) ? $firstParameter['name'] : 0;
-			$this->trial_days = ($firstParameter['trial_days']) ? $firstParameter['trial_days'] : 0;
-		}
-		if($serverResponse) {
-			$this->updateFieldsFromResponse($serverResponse);
-		}
+	public function __construct($plan = 0) {
+		$this->updateFieldsFromResponse($plan);
 	}
 
 	public function create() 
@@ -61,13 +52,13 @@ class PagarMe_Plan extends PagarMe_Model
 		}
 	}
 
-	protected function updateFieldsFromResponse($serverResponse) 
+	protected function updateFieldsFromResponse($firstParameter) 
 	{
-		$this->amount = $serverResponse['amount'];
-		$this->days = $serverResponse['days'];
-		$this->name = $serverResponse['name'];
-		$this->trial_days = $serverResponse['trial_days'];		
-		$this->id = $serverResponse['id'];
+		$this->amount = ($firstParameter['amount']) ? $firstParameter['amount'] : 0;
+		$this->days = ($firstParameter['days']) ? $firstParameter['days'] : 0;
+		$this->name = ($firstParameter['name']) ? $firstParameter['name'] : 0;
+		$this->trial_days = ($firstParameter['trial_days']) ? $firstParameter['trial_days'] : 0;
+		$this->id = ($firstParameter['id']) ? $firstParameter['id'] : 0;
 	}
 
 	public function getAmount() 
