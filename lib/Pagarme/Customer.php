@@ -5,7 +5,7 @@ class PagarMe_Customer extends PagarMe_Model {
 
 
 	public function __construct($customer = 0) {
-			$this->updateFieldsFormResponse($customer);
+		$this->updateFieldsFromResponse($customer);
 	}
 
 	//TODO try to assume document_type
@@ -18,7 +18,7 @@ class PagarMe_Customer extends PagarMe_Model {
 			$this->addresses = ($serverResponse['address']) ? $this->setAddresses($serverResponse['addresses']) : 0;
 			$this->sex = ($serverResponse['sex']) ? $serverResponse['sex'] : 0;
 			$this->born_at = ($serverResponse['born_at']) ? $serverResponse['born_at'] : 0;
-			$this->phones = ($serverResponse['phones']) ? $this->setPhones($serverResponse['phones']) : 0;
+			$this->setPhones($serverResponse['phones']);
 	}
 
 
@@ -43,8 +43,10 @@ class PagarMe_Customer extends PagarMe_Model {
 
 	public function getPhones() { return $this->phones;}
 	public function setPhones($phones) { 
-		foreach($phones as $phone) {
-			$this->phones[] = new PagarMe_Phone($phone);	
+		if($phones) {
+			foreach($phones as $phone) {
+				$this->phones[] = new PagarMe_Phone($phone);	
+			}
 		}
 	}
 

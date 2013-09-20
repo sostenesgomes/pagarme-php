@@ -72,15 +72,15 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 
 	protected function mergeCustomerInformation($transactionInfo) {
 		$transactionInfo['customer']['phone']['phone_type'] = $this->phone_type;
-		$transactionInfo['customer']['phone']['ddi'] = $this->ddi;
+		$transactionInfo['customer']['phone']['ddi'] = ($this->ddi) ? $this->ddi : '55';
 		$transactionInfo['customer']['phone']['ddd'] = $this->ddd;
 		$transactionInfo['customer']['phone']['number'] = $this->number;
-		$transactionInfo['customer']['phone']['type'] = $this->ddi;
+		$transactionInfo['customer']['phone']['type'] = $this->phone_type;
 		$transactionInfo['customer']['address']['street_number'] = $this->street_number;
 		$transactionInfo['customer']['address']['street'] = $this->street;
 		$transactionInfo['customer']['address']['city'] = $this->city;
 		$transactionInfo['customer']['address']['state'] = $this->state;
-		$transactionInfo['customer']['address']['country'] = $this->country;
+		$transactionInfo['customer']['address']['country'] = ($this->country) ? ($this->country) : "Brasil";
 		$transactionInfo['customer']['address']['zipcode'] = $this->zipcode;
 		$transactionInfo['customer']['address']['street_2'] = $this->street_2;
 		$transactionInfo['customer']['address']['neighborhood'] = $this->neighborhood;
@@ -122,7 +122,7 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 		$this->street_number = ($first_parameter['street_number']) ? $first_parameter['street_number'] : '';
 		$this->country = ($first_parameter['country']) ? $first_parameter['country'] : '';
 		$this->phone_type = ($first_parameter['phone_type']) ? $first_parameter['phone_type'] : '';
-		$this->ddi = ($first_parameter['ddi']) ? $first_parameter['ddi'] : '55';
+		$this->ddi = ($first_parameter['ddi']) ? $first_parameter['ddi'] : '';
 		$this->ddd = ($first_parameter['ddd']) ? $first_parameter['ddd'] : '';
 		$this->number = ($first_parameter['number']) ? $first_parameter['number'] : '';
 		$this->id = ($first_parameter['id']) ? $first_parameter['id'] : '';

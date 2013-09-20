@@ -42,6 +42,8 @@ class RestClient
 				$this->method = $params["method"];
 			}
 
+			$this->parameters = http_build_query($this->parameters);
+
 			if ($this->method){
 				switch($this->method) {
 				case 'post':
@@ -51,7 +53,7 @@ class RestClient
 					break;
 				case 'get':
 				case 'GET':
-					$this->url .= '?'.http_build_query($this->parameters);
+					$this->url .= '?'.$this->parameters;
 					break;
 				case 'put':
 				case 'PUT':

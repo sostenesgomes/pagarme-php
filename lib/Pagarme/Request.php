@@ -24,7 +24,6 @@ class PagarMe_Request extends PagarMe
 			// $this->headers = (PagarMe::live) ? array("X-Live" => 1) : array();
 			try {
 				$client = new RestClient(array("method" => $this->method, "url" => $this->full_api_url($this->path), "headers" => $this->headers, "parameters" => $this->parameters ));	
-				var_dump($this->headers);
 				$response = $client->run();
 				$decode = json_decode($response["body"], true);
 				if(!$decode) {
