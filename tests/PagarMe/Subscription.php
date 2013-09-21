@@ -41,6 +41,19 @@ class PagarMe_SubscriptionTest extends PagarMeTestCase {
 		$this->assertTrue($subscription->getCustomer());
 		$this->assertTrue($subscription->getTransactions());
 
+		$this->assertTrue($subscription->getCustomer());
+
+		$this->assertTrue($subscription->getCustomer()->getPhones());
+		$this->assertTrue($subscription->getCustomer()->getAddresses());
+
+		$this->assertTrue($subscription->getCustomer()->getName());
+		$this->assertTrue($subscription->getCustomer()->getDocumentNumber());
+		$this->assertTrue($subscription->getCustomer()->getDocumentType());
+		$this->assertTrue($subscription->getCustomer()->getEmail());
+		$this->assertTrue($subscription->getCustomer()->getSex());
+		$this->assertTrue($subscription->getCustomer()->getId());
+		
+
 	}
 
 	public function testCreateWithPlanAndFraud() {
