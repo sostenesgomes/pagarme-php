@@ -15,7 +15,7 @@ class PagarMe_Customer extends PagarMe_Model {
 			$this->document_number = ($serverResponse['document_number']) ? $serverResponse['document_number'] : 0;
 			$this->document_type = ($serverResponse['document_type']) ? $serverResponse['document_type'] : 0;
 			$this->email = ($serverResponse['email']) ? $serverResponse['email'] : 0;
-			$this->addresses = ($serverResponse['address']) ? $this->setAddresses($serverResponse['addresses']) : 0;
+			$this->setAddresses($serverResponse['addresses']);
 			$this->sex = ($serverResponse['sex']) ? $serverResponse['sex'] : 0;
 			$this->born_at = ($serverResponse['born_at']) ? $serverResponse['born_at'] : 0;
 			$this->setPhones($serverResponse['phones']);
@@ -36,8 +36,10 @@ class PagarMe_Customer extends PagarMe_Model {
 
 	public function getAddresses() { return $this->addresses;}
 	public function setAddresses($addresses) { 
-		foreach($addresses as $address) {
-			$this->addresses[] = new PagarMe_Address($address);	
+		if($addresses) {
+			foreach($addresses as $address) {
+				$this->addresses[] = new PagarMe_Address($address);	
+			}
 		}
 	}
 

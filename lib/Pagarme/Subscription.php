@@ -32,6 +32,10 @@ class PagarMe_Subscription extends PagarMe_TransactionCommon {
 				$parameters['plan_id'] = $this->plan->getId();
 			}
 
+			if($this->checkCustomerInformation()) {
+				$parameters =  $this->mergeCustomerInformation($parameters);
+			}
+
 			$request->setParameters($parameters);
 			$response = $request->run();
 			$this->updateFieldsFromResponse($response);

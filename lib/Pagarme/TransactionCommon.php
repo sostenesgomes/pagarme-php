@@ -130,7 +130,7 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 		$this->document_type = ($first_parameter['document_type']) ? $first_parameter['document_type'] : '';
 		$this->document_number = ($first_parameter['document_number']) ? $first_parameter['document_number'] : '';
 		$this->email = ($first_parameter['email']) ? $first_parameter['email'] : '';
-		$this->sex = ($first_parameter['born_at']) ? $first_parameter['born_at'] : '';
+		$this->born_at = ($first_parameter['born_at']) ? $first_parameter['born_at'] : '';
 	}
 
 	protected function cardDataParameters() 

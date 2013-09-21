@@ -18,13 +18,21 @@ class PagarMe_TransactionTest extends PagarMeTestCase {
 			'street' => 'Av. Brigadeiro Faria Lima', 'city' => 'São Paulo', 'state' => 'SP', 'neighborhood' => 'Itaim bibi',
 			'zipcode' => '01452000', 'street_number' => 2941, 'phone_type' => 'cellphone', 'ddd' => 12, 'number' => '981433533', 
 			'sex' => 'M', 'born_at' => '0'));
-		// curl -X POST https://api.pagar.me/1/transactions -d card_expiracy_date='1115' -d 'amount=70000' -d card_cvv='123' -d 'card_number=4901720080344448' -d card_holder_name='Jose da silva' -d 'customer[name]=Jose Silva' -d 'customer[document_number]=36433809847' -d 'customer[document_type]=cpf' -d 'customer[email]=henrique@pagar.me' -d 'customer[address][street]=Av Brigadeiro Faria Lima' -d 'customer[address][city]=São Paulo' -d 'customer[address][state]=SP' -d 'customer[address][neighborhood]=Itaim bibi' -d 'customer[address][zipcode]=01452000' -d 'customer[address][street_number]=2941' -d 'customer[phone][type]=cellphone' -d 'customer[phone][ddd]=12' -d 'customer[phone][number]=981433533' -d 'api_key=xG5CDo48nzL3wwhebSXnBdXML3yzAl' -d 'customer[address][country]=Brasil' -d 'customer[phone][ddi]=55'
-		// curl -X POST https://api.pagar.me/1/transactions -d card_expiracy_date='1115' -d 'amount=70000' -d card_cvv='123' -d 'card_number=4901720080344448' -d card_holder_name='Jose da silva' -d api_key=xG5CDo48nzL3wwhebSXnBdXML3yzAl 
 		
-
 		$transaction->charge();
 		$this->assertTrue($transaction->getId());
 		$this->assertTrue($transaction->getCustomer());
+
+		$this->assertTrue($transaction->getCustomer()->getPhones());
+		$this->assertTrue($transaction->getCustomer()->getAddresses());
+
+		$this->assertTrue($transaction->getCustomer()->getName());
+		$this->assertTrue($transaction->getCustomer()->getDocumentNumber());
+		$this->assertTrue($transaction->getCustomer()->getDocumentType());
+		$this->assertTrue($transaction->getCustomer()->getEmail());
+		$this->assertTrue($transaction->getCustomer()->getSex());
+		$this->assertTrue($transaction->getCustomer()->getId());
+
 		self::setAntiFraud("false");
 	}
 
