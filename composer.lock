@@ -9,16 +9,16 @@
     ],
     "packages-dev": [
         {
-            "name": "vierbergenlars/simpletest",
+            "name": "simpletest/simpletest",
             "version": "v1.1.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/vierbergenlars/simpletest.git",
+                "url": "https://github.com/simpletest/simpletest.git",
                 "reference": "6d8cf373988693472d45ee03deb2a57ec7e34c69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vierbergenlars/simpletest/zipball/6d8cf373988693472d45ee03deb2a57ec7e34c69",
+                "url": "https://api.github.com/repos/simpletest/simpletest/zipball/6d8cf373988693472d45ee03deb2a57ec7e34c69",
                 "reference": "6d8cf373988693472d45ee03deb2a57ec7e34c69",
                 "shasum": ""
             },
