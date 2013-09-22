@@ -9,6 +9,6 @@
 		 "simpletest/simpletest": "*"
 	},
 	"autoload": { 
-		"classmap":["lib/PagarMe"]
+		"classmap":["lib/Pagarme"]
 	}
 }
