@@ -4,7 +4,7 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 	protected $id, $amount, $card_number, $card_holder_name, $card_expiracy_month, $card_expiracy_year, $card_cvv, $card_hash, $postback_url, $payment_method, $status, $date_created;
 	protected $name, $document_number, $document_type, $email, $sex, $born_at, $customer; 
 	protected $street, $city, $state, $neighborhood, $zipcode, $street_2, $street_number, $country;
-	protected $phone_type, $ddi, $ddd, $number, $phone_id;
+	protected $type, $ddi, $ddd, $number, $phone_id;
 	protected $resfuse_reason, $antifraud_score, $boleto_url, $boleto_barcode;
 
 	protected function generateCardHash() 
@@ -71,11 +71,10 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 	}
 
 	protected function mergeCustomerInformation($transactionInfo) {
-		$transactionInfo['customer']['phone']['phone_type'] = $this->phone_type;
+		$transactionInfo['customer']['phone']['type'] = $this->type;
 		$transactionInfo['customer']['phone']['ddi'] = ($this->ddi) ? $this->ddi : '55';
 		$transactionInfo['customer']['phone']['ddd'] = $this->ddd;
 		$transactionInfo['customer']['phone']['number'] = $this->number;
-		$transactionInfo['customer']['phone']['type'] = $this->phone_type;
 		$transactionInfo['customer']['address']['street_number'] = $this->street_number;
 		$transactionInfo['customer']['address']['street'] = $this->street;
 		$transactionInfo['customer']['address']['city'] = $this->city;
@@ -112,25 +111,25 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 		}
 
 		$this->payment_method = ($first_parameter['payment_method']) ? $first_parameter['payment_method'] : 'credit_card';
-		$this->street = ($first_parameter['street']) ? $first_parameter['street'] : 0;
-		$this->city = ($first_parameter['city']) ? $first_parameter['city'] : '';
-		$this->state = ($first_parameter['state']) ? $first_parameter['state'] : '';
-		$this->state = ($first_parameter['state']) ? $first_parameter['state'] : '';
-		$this->neighborhood = ($first_parameter['neighborhood']) ? $first_parameter['neighborhood'] : '';
-		$this->zipcode = ($first_parameter['zipcode']) ? $first_parameter['zipcode'] : '';
-		$this->street_2 = ($first_parameter['street_2']) ? $first_parameter['street_2'] : '';
-		$this->street_number = ($first_parameter['street_number']) ? $first_parameter['street_number'] : '';
-		$this->country = ($first_parameter['country']) ? $first_parameter['country'] : '';
-		$this->phone_type = ($first_parameter['phone_type']) ? $first_parameter['phone_type'] : '';
-		$this->ddi = ($first_parameter['ddi']) ? $first_parameter['ddi'] : '';
-		$this->ddd = ($first_parameter['ddd']) ? $first_parameter['ddd'] : '';
-		$this->number = ($first_parameter['number']) ? $first_parameter['number'] : '';
+		$this->street = ($first_parameter['customer']['address']['street']) ? $first_parameter['customer']['address']['street'] : 0;
+		$this->city = ($first_parameter['customer']['address']['city']) ? $first_parameter['customer']['address']['city'] : '';
+		$this->state = ($first_parameter['customer']['address']['state']) ? $first_parameter['customer']['address']['state'] : '';
+		$this->neighborhood = ($first_parameter['customer']['address']['neighborhood']) ? $first_parameter['customer']['address']['neighborhood'] : '';
+		$this->zipcode = ($first_parameter['customer']['address']['zipcode']) ? $first_parameter['customer']['address']['zipcode'] : '';
+		$this->street_2 = ($first_parameter['customer']['address']['street_2']) ? $first_parameter['customer']['address']['street_2'] : '';
+		$this->street_number = ($first_parameter['customer']['address']['street_number']) ? $first_parameter['customer']['address']['street_number'] : '';
+		$this->country = ($first_parameter['customer']['address']['country']) ? $first_parameter['customer']['address']['country'] : '';
+		$this->type = ($first_parameter['customer']['phone']['type']) ? $first_parameter['customer']['phone']['type'] : '';
+		$this->ddi = ($first_parameter['customer']['phone']['ddi']) ? $first_parameter['customer']['phone']['ddi'] : '';
+		$this->ddd = ($first_parameter['customer']['phone']['ddd']) ? $first_parameter['customer']['phone']['ddd'] : '';
+		$this->number = ($first_parameter['customer']['phone']['number']) ? $first_parameter['customer']['phone']['number'] : '';
 		$this->id = ($first_parameter['id']) ? $first_parameter['id'] : '';
-		$this->name = ($first_parameter['name']) ? $first_parameter['name'] : '';
-		$this->document_type = ($first_parameter['document_type']) ? $first_parameter['document_type'] : '';
-		$this->document_number = ($first_parameter['document_number']) ? $first_parameter['document_number'] : '';
-		$this->email = ($first_parameter['email']) ? $first_parameter['email'] : '';
-		$this->born_at = ($first_parameter['born_at']) ? $first_parameter['born_at'] : '';
+		$this->name = ($first_parameter['name']) ? $first_parameter['customer']['name'] : '';
+		$this->document_type = ($first_parameter['customer']['document_type']) ? $first_parameter['customer']['document_type'] : '';
+		$this->document_number = ($first_parameter['customer']['document_number']) ? $first_parameter['customer']['document_number'] : '';
+		$this->email = ($first_parameter['customer']['email']) ? $first_parameter['customer']['email'] : '';
+		$this->born_at = ($first_parameter['customer']['born_at']) ? $first_parameter['customer']['born_at'] : '';
+		$this->sex = ($first_parameter['customer']['sex']) ? $first_parameter['customer']['sex'] : '';
 	}
 
 	protected function cardDataParameters() 
@@ -199,8 +198,8 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 
 	// Phone Info
 
-	public function setPhoneType($phone_type) {$this->phone_type = $phone_type;}
-	public function getPhoneType() {return $this->phone_type;}
+	public function setPhoneType($type) {$this->type = $type;}
+	public function getPhoneType() {return $this->type;}
 
 	public function setDDI($ddi) {$this->ddi = $ddi;}
 	public function getDDI() {return $this->ddi;}

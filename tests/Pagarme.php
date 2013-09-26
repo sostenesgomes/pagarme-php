@@ -4,7 +4,7 @@ function authorizeFromEnv()
 {
   $apiKey = getenv('PAGARME_API_KEY');
   if (!$apiKey)
-    $apiKey = "xG5CDo48nzL3wwhebSXnBdXML3yzAl";
+    $apiKey = "ak_test_hc7ScZHEpRn588IPzLfE2FkMNYHvpX";
   PagarMe::setApiKey($apiKey);
 }
 

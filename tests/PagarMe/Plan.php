@@ -1,7 +1,6 @@
 <?php
 
 class PagarMe_PlanTest extends PagarMeTestCase {
-
 	public function testCreate() {
 		$plan = self::createTestPlan();
 		$plan->create();
@@ -50,7 +49,6 @@ class PagarMe_PlanTest extends PagarMeTestCase {
 
 		$plan->assertTrue($plan->getId());
 	}
-
 }
 
 ?>

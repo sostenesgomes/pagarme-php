@@ -12,13 +12,35 @@ class PagarMe_TransactionTest extends PagarMeTestCase {
 	public function testCreationWithFraud() {
 		authorizeFromEnv();
 		self::setAntiFraud("false");
-		$transaction = new PagarMe_Transaction(array('amount' => 70000, 'card_number' => '4901720080344448', 'card_holder_name' => "Jose da silva", 
-			'card_expiracy_month' => 11, 'card_expiracy_year' => "13", 'card_cvv' => 356, 'name' => "Jose da Silva",  
-			'document_number' => "36433809847", 'document_type' => 'cpf', 'email' => "henrique@pagar.me", 
-			'street' => 'Av. Brigadeiro Faria Lima', 'city' => 'São Paulo', 'state' => 'SP', 'neighborhood' => 'Itaim bibi',
-			'zipcode' => '01452000', 'street_number' => 2941, 'phone_type' => 'cellphone', 'ddd' => 12, 'number' => '981433533', 
-			'sex' => 'M', 'born_at' => '0'));
-		
+		$transaction = new PagarMe_Transaction(array(
+			'amount' => 70000,
+			'card_number' => '4901720080344448', 
+			'card_holder_name' => "Jose da silva", 
+			'card_expiracy_month' => 11, 
+			'card_expiracy_year' => "13", 
+			'card_cvv' => 356, 
+			'customer' => array(
+				'name' => "Jose da Silva",  
+				'document_number' => "36433809847", 
+				'document_type' => 'cpf', 
+				'email' => "henrique@pagar.me", 
+				'address' => array(
+					'street' => 'Av. Brigadeiro Faria Lima', 
+					'city' => 'São Paulo', 
+					'state' => 'SP', 
+					'neighborhood' => 'Itaim bibi',
+					'zipcode' => '01452000', 
+					'street_number' => 2941, 
+				),
+				'phone' => array(
+					'type' => 'cellphone', 
+					'ddd' => 12, 
+					'number' => '981433533', 
+				),
+		'sex' => 'M', 
+			'born_at' => '0')
+		));
+
 		$transaction->charge();
 		$this->assertTrue($transaction->getId());
 		$this->assertTrue($transaction->getCustomer());
