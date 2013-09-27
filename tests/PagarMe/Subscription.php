@@ -102,7 +102,6 @@ class PagarMe_SubscriptionTest extends PagarMeTestCase {
 		$subscription->create();
 		$this->assertTrue($subscription->getId());
 		$this->assertTrue($subscription->getCustomer());
-		$this->assertTrue($subscription->getTransactions());
 		$this->assertTrue($subscription->getPlan()->getId());
 		$this->assertTrue($plan->getId());
 
