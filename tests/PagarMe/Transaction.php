@@ -22,24 +22,21 @@ class PagarMe_TransactionTest extends PagarMeTestCase {
 			'customer' => array(
 				'name' => "Jose da Silva",  
 				'document_number' => "36433809847", 
-				'document_type' => 'cpf', 
 				'email' => "henrique@pagar.me", 
 				'address' => array(
-					'street' => 'Av. Brigadeiro Faria Lima', 
-					'city' => 'São Paulo', 
-					'state' => 'SP', 
-					'neighborhood' => 'Itaim bibi',
-					'zipcode' => '01452000', 
-					'street_number' => 2941, 
+					'street' => "Av Faria Lima",
+					'neighborhood' => 'Jardim Europa',
+					'zipcode' => '12460000', 
+					'street_number' => 295, 
 				),
 				'phone' => array(
-					'type' => 'cellphone', 
+					'type' => "cellphone",
 					'ddd' => 12, 
 					'number' => '981433533', 
 				),
-		'sex' => 'M', 
-			'born_at' => '0')
-		));
+				'sex' => 'M', 
+				'born_at' => '1995-10-11')
+			));
 
 		$transaction->charge();
 		$this->assertTrue($transaction->getId());

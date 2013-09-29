@@ -4,10 +4,10 @@ abstract class PagarMeTestCase extends UnitTestCase {
 	
 
 	protected static function setAntiFraud($status) {
-		authorizeFromEnv();	
-		$request = new PagarMe_Request('/company', 'PUT');
-		$request->setParameters(array('antifraud' => $status));	
-		$response = $request->run();
+		// authorizeFromEnv();	
+		// $request = new PagarMe_Request('/company', 'PUT');
+		// $request->setParameters(array('antifraud' => $status));	
+		// $response = $request->run();
 	}
 
 	protected static function createTestTransaction(array $attributes = array()) 

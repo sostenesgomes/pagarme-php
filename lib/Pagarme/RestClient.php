@@ -42,7 +42,8 @@ class RestClient
 				$this->method = $params["method"];
 			}
 
-			$this->parameters = http_build_query($this->parameters);
+			$this->parameters = str_replace('+', '%20', http_build_query($this->parameters));
+
 
 			if ($this->method){
 				switch($this->method) {

@@ -3,7 +3,7 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 {
 	protected $id, $amount, $card_number, $card_holder_name, $card_expiracy_month, $card_expiracy_year, $card_cvv, $card_hash, $postback_url, $payment_method, $status, $date_created;
 	protected $name, $document_number, $document_type, $email, $sex, $born_at, $customer; 
-	protected $street, $city, $state, $neighborhood, $zipcode, $street_2, $street_number, $country;
+	protected $street, $city, $state, $neighborhood, $zipcode, $complementary, $street_number, $country;
 	protected $type, $ddi, $ddd, $number, $phone_id;
 	protected $resfuse_reason, $antifraud_score, $boleto_url, $boleto_barcode;
 
@@ -53,7 +53,7 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 		}
 
 		if(checkCustomerInformation()) {
-			if(!$this->street || !$this->city || !$this->state || !$this->neighborhood || !$this->zipcode || !$this->street_number || !$this->ddd || !$this->number || !$this->name || !$this->document_type || !$this->document_number || !$this->email || !$this->sex || !$this->born_at ) {
+			if(!$this->zipcode || !$this->street_number || !$this->ddd || !$this->number || !$this->name || !$this->document_number || !$this->email || !$this->sex || !$this->born_at || !$this->street || !$this->neighborhood) {
 				return "If you want to send customer information you need to send all of it.";
 			}
 		}
@@ -62,7 +62,7 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 	}
 
 	protected function checkCustomerInformation() {
-		if($this->street || $this->city || $this->state || $this->neighborhood || $this->zipcode || $this->street_2 || $this->country || $this->street_number || $this->phoneType || $this->ddi || $this->ddd || $this->number || $this->name || $this->document_number || $this->document_type || $this->email || $this->sex || $this->born_at || $this->phones) {
+		if($this->zipcode || $this->complementary || $this->street_number || $this->ddd || $this->number || $this->name || $this->document_number || $this->email || $this->sex || $this->born_at || $this->street || $this->neighborhood) {
 			return true;
 		} else {
 			return false;
@@ -71,20 +71,14 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 	}
 
 	protected function mergeCustomerInformation($transactionInfo) {
-		$transactionInfo['customer']['phone']['type'] = $this->type;
-		$transactionInfo['customer']['phone']['ddi'] = ($this->ddi) ? $this->ddi : '55';
 		$transactionInfo['customer']['phone']['ddd'] = $this->ddd;
 		$transactionInfo['customer']['phone']['number'] = $this->number;
 		$transactionInfo['customer']['address']['street_number'] = $this->street_number;
 		$transactionInfo['customer']['address']['street'] = $this->street;
-		$transactionInfo['customer']['address']['city'] = $this->city;
-		$transactionInfo['customer']['address']['state'] = $this->state;
-		$transactionInfo['customer']['address']['country'] = ($this->country) ? ($this->country) : "Brasil";
-		$transactionInfo['customer']['address']['zipcode'] = $this->zipcode;
-		$transactionInfo['customer']['address']['street_2'] = $this->street_2;
 		$transactionInfo['customer']['address']['neighborhood'] = $this->neighborhood;
+		$transactionInfo['customer']['address']['zipcode'] = $this->zipcode;
+		$transactionInfo['customer']['address']['complementary'] = $this->complementary;
 		$transactionInfo['customer']['document_number'] = $this->document_number;
-		$transactionInfo['customer']['document_type'] = $this->document_type;
 		$transactionInfo['customer']['email'] = $this->email;
 		$transactionInfo['customer']['sex'] = $this->sex;
 		$transactionInfo['customer']['born_at'] = $this->born_at;
@@ -116,7 +110,7 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 		$this->state = ($first_parameter['customer']['address']['state']) ? $first_parameter['customer']['address']['state'] : '';
 		$this->neighborhood = ($first_parameter['customer']['address']['neighborhood']) ? $first_parameter['customer']['address']['neighborhood'] : '';
 		$this->zipcode = ($first_parameter['customer']['address']['zipcode']) ? $first_parameter['customer']['address']['zipcode'] : '';
-		$this->street_2 = ($first_parameter['customer']['address']['street_2']) ? $first_parameter['customer']['address']['street_2'] : '';
+		$this->complementary = ($first_parameter['customer']['address']['complementary']) ? $first_parameter['customer']['address']['complementary'] : '';
 		$this->street_number = ($first_parameter['customer']['address']['street_number']) ? $first_parameter['customer']['address']['street_number'] : '';
 		$this->country = ($first_parameter['customer']['address']['country']) ? $first_parameter['customer']['address']['country'] : '';
 		$this->type = ($first_parameter['customer']['phone']['type']) ? $first_parameter['customer']['phone']['type'] : '';
@@ -170,38 +164,33 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 	function setId($id) {$this->id = $id;}
 
 	//Address Info
-	public function setStreet($street) {$this->street = $street;}
 	public function getStreet() { return $this->street;}
+	public function setStreet($street) {$this->street = $street;}
 
-	public function setCity($city) {$this->city = $city;}
 	public function getCity() { return $this->city;}
 
-	public function setState($state) {$this->state = $state;}
 	public function getState() { return $this->state;}
 
-	public function setNeighborhood($neighborhood) {$this->neighborhood = $neighborhood;}
 	public function getNeighborhood() { return $this->neighborhood;}
+	public function setNeighborhood($neighborhood) { $this->neighborhood = $neighborhood;}
 
 	public function setZipcode($zipcode) {$this->zipcode = $zipcode;}
 	public function getZipcode() { return $this->zipcode;}
 
 	public function getAddressId() { return $this->address_id;}
 
-	public function setStreet2($street2) {$this->street2 = $street2;}
-	public function getStreet2() { return $this->street2;}
+	public function setComplementary($complementary) {$this->complementary = $complementary;}
+	public function getComplementary() { return $this->complementary;}
 
 	public function setStreetNumber($street_number) {$this->street_number = $street_number;}
 	public function getStreetNumber() { return $this->street_number;}
 
-	public function setCountry($country) {$this->country = $country;}
 	public function getCountry() { return $this->country;}
 
 	// Phone Info
 
-	public function setPhoneType($type) {$this->type = $type;}
-	public function getPhoneType() {return $this->type;}
+	function getPhoneType() {return $this->type;}
 
-	public function setDDI($ddi) {$this->ddi = $ddi;}
 	public function getDDI() {return $this->ddi;}
 
 	public function setDDD($ddd) {$this->ddd = $ddd;}
