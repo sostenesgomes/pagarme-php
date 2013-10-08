@@ -118,7 +118,7 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 		$this->ddd = ($first_parameter['customer']['phone']['ddd']) ? $first_parameter['customer']['phone']['ddd'] : '';
 		$this->number = ($first_parameter['customer']['phone']['number']) ? $first_parameter['customer']['phone']['number'] : '';
 		$this->id = ($first_parameter['id']) ? $first_parameter['id'] : '';
-		$this->name = ($first_parameter['name']) ? $first_parameter['customer']['name'] : '';
+		$this->name = ($first_parameter['customer']['name']) ? $first_parameter['customer']['name'] : '';
 		$this->document_type = ($first_parameter['customer']['document_type']) ? $first_parameter['customer']['document_type'] : '';
 		$this->document_number = ($first_parameter['customer']['document_number']) ? $first_parameter['customer']['document_number'] : '';
 		$this->email = ($first_parameter['customer']['email']) ? $first_parameter['customer']['email'] : '';

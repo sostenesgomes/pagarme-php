@@ -20,8 +20,8 @@ abstract class PagarMe
 		return self::$api_key;
 	}
 
-	public static function checkFingerprint($id, $key) {
-			return (sha1($id."#".self::$api_key) == $key);
+	public static function validateFingerprint($id, $fingerprint) {
+			return (sha1($id."#".self::$api_key) == $fingerprint);
 	}
 }
 

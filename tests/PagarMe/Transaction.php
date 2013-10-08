@@ -38,7 +38,9 @@ class PagarMe_TransactionTest extends PagarMeTestCase {
 				'born_at' => '1995-10-11')
 			));
 
+
 		$transaction->charge();
+
 		$this->assertTrue($transaction->getId());
 		$this->assertTrue($transaction->getCustomer());
 
@@ -99,6 +101,11 @@ class PagarMe_TransactionTest extends PagarMeTestCase {
 		$this->expectException(new IsAExpectation('PagarMe_Exception'));
 		$transaction->charge();
 		$transaction->setAmount(1000);
+	}
+
+
+	public function testFingerprint() {
+		$this->assertTrue(PagarMe::validateFingerprint('13', sha1('13' . '#' . PagarMe::getApiKey())));		
 	}
 }
 
