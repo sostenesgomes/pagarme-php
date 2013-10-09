@@ -54,7 +54,7 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 
 		if(checkCustomerInformation()) {
 			if(!$this->zipcode || !$this->street_number || !$this->ddd || !$this->number || !$this->name || !$this->document_number || !$this->email || !$this->sex || !$this->born_at || !$this->street || !$this->neighborhood) {
-				return "Faltam informações do cliente.";
+				return "Faltam informações do cliente.	";
 			}
 		}
 
@@ -105,6 +105,7 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 		}
 
 		$this->payment_method = ($first_parameter['payment_method']) ? $first_parameter['payment_method'] : 'credit_card';
+		$this->refuse_reason = ($first_parameter['refuse_reason']) ? $first_parameter['refuse_reason'] : '';
 		$this->street = ($first_parameter['customer']['address']['street']) ? $first_parameter['customer']['address']['street'] : 0;
 		$this->city = ($first_parameter['customer']['address']['city']) ? $first_parameter['customer']['address']['city'] : '';
 		$this->state = ($first_parameter['customer']['address']['state']) ? $first_parameter['customer']['address']['state'] : '';
