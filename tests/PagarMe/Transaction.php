@@ -38,8 +38,11 @@ class PagarMe_TransactionTest extends PagarMeTestCase {
 				'born_at' => '1995-10-11')
 			));
 
+		$transaction->setInstallments(6); // Número de parcelas
 
 		$transaction->charge();
+
+		$this->assertTrue($transaction->getInstallments());
 
 		$this->assertTrue($transaction->getId());
 		$this->assertTrue($transaction->getCustomer());
