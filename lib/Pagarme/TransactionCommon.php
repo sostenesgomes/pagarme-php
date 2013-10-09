@@ -21,27 +21,27 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 	{
 		if($this->payment_method == 'credit_card') { 
 			if(strlen($this->card_number) < 16 || strlen($this->card_number) > 20) {
-				return "Invalid card number";
+				return "Número de cartão inválido.";
 			}
 
 			else if(strlen($this->card_holder_name) == 0) {
-				return "Invalid card holder name.";
+				return "Nome do portador do cartão inválido.";
 			}
 
 			else if($this->card_expiracy_month <= 0 || $this->card_expiracy_month > 12) {
-				return "Invalid expiracy month.";
+				return "Mês de expiração do cartão inválido";
 			}
 
 			else if($this->card_expiracy_year <= 0) {
-				return "Invalid expiracy year";
+				return "Ano de expiração do cartão inválido";
 			}
 
 			else if($this->card_expiracy_year < substr(date('Y'),-2)) {
-				return "Card already expired";
+				return "Cartão expirado";
 			}
 
 			else if(strlen($this->card_cvv) < 3  || strlen($this->card_cvv) > 4) {
-				return "Invalid card security code";
+				return "Código de segurança inválido";
 			}
 
 			else {
@@ -49,12 +49,12 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 			}
 		}
 		if($this->amount <= 0) {
-			return "Invalid amount.";
+			return "Valor inválido";
 		}
 
 		if(checkCustomerInformation()) {
 			if(!$this->zipcode || !$this->street_number || !$this->ddd || !$this->number || !$this->name || !$this->document_number || !$this->email || !$this->sex || !$this->born_at || !$this->street || !$this->neighborhood) {
-				return "If you want to send customer information you need to send all of it.";
+				return "Faltam informações do cliente.";
 			}
 		}
 
