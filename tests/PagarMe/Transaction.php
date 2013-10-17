@@ -13,7 +13,6 @@ class PagarMe_TransactionTest extends PagarMeTestCase {
 		authorizeFromEnv();
 		self::setAntiFraud("false");
 		$transaction = new PagarMe_Transaction(array(
-			'amount' => 70000,
 			'card_number' => '4901720080344448', 
 			'card_holder_name' => "Jose da silva", 
 			'card_expiracy_month' => 11, 
@@ -39,10 +38,12 @@ class PagarMe_TransactionTest extends PagarMeTestCase {
 			));
 
 		$transaction->setInstallments(6); // Número de parcelas
+		$transaction->setAmount(1000); // Set Amount
 
 		$transaction->charge();
 
 		$this->assertEqual($transaction->getStatus(), 'paid');
+		$this->assertEqual($transaction->getAmount(), '1000');
 
 		$this->assertEqual($transaction->getInstallments(), 6);
 
@@ -59,6 +60,7 @@ class PagarMe_TransactionTest extends PagarMeTestCase {
 		$this->assertTrue($transaction->getCustomer()->getEmail());
 		$this->assertTrue($transaction->getCustomer()->getSex());
 		$this->assertTrue($transaction->getCustomer()->getId());
+		
 
 		self::setAntiFraud("false");
 	}
