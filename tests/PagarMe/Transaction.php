@@ -42,9 +42,12 @@ class PagarMe_TransactionTest extends PagarMeTestCase {
 
 		$transaction->charge();
 
+		$this->assertEqual($transaction->getStatus(), 'paid');
+
 		$this->assertEqual($transaction->getInstallments(), 6);
 
 		$this->assertTrue($transaction->getId());
+		$this->assertFalse($transaction->getRefuseReason());
 		$this->assertTrue($transaction->getCustomer());
 
 		$this->assertTrue($transaction->getCustomer()->getPhones());

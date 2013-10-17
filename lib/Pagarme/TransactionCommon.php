@@ -98,12 +98,12 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 			$this->card_expiracy_month = ($first_parameter["card_expiracy_month"]) ? $first_parameter['card_expiracy_month'] : '';
 			$this->card_expiracy_year = ($first_parameter["card_expiracy_year"]) ? $first_parameter['card_expiracy_year'] : '';
 			$this->card_cvv = $first_parameter["card_cvv"] ? $first_parameter['card_cvv'] : '';
-			$this->installments = ($first_parameter['installments']) ? $first_parameter["installments"] : '';
 			$this->postback_url = ($first_parameter['postback_url']) ? $first_parameter['postback_url'] : '';
 		} elseif($first_parameter['card_hash']) {
 			$this->card_hash = $first_parameter['card_hash'];
 		}
 
+		$this->installments = ($first_parameter['installments']) ? $first_parameter["installments"] : '';
 		$this->payment_method = ($first_parameter['payment_method']) ? $first_parameter['payment_method'] : 'credit_card';
 		$this->refuse_reason = ($first_parameter['refuse_reason']) ? $first_parameter['refuse_reason'] : '';
 		$this->street = ($first_parameter['customer']['address']['street']) ? $first_parameter['customer']['address']['street'] : 0;
