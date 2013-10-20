@@ -55,6 +55,11 @@ class PagarMe_Plan extends PagarMe_Model
 	protected function updateFieldsFromResponse($firstParameter) 
 	{
 		$this->amount = ($firstParameter['amount']) ? $firstParameter['amount'] : 0;
+		$this->amount = trim($this->amount);
+		$this->amount = str_replace(',', "", $this->amount);
+		$this->amount = str_replace('.', "", $this->amount);
+		$this->amount = str_replace('R$', "", $this->amount);
+
 		$this->days = ($firstParameter['days']) ? $firstParameter['days'] : 0;
 		$this->name = ($firstParameter['name']) ? $firstParameter['name'] : 0;
 		$this->trial_days = ($firstParameter['trial_days']) ? $firstParameter['trial_days'] : 0;

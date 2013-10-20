@@ -6,6 +6,7 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 	protected $street, $city, $state, $neighborhood, $zipcode, $complementary, $street_number, $country;
 	protected $type, $ddi, $ddd, $number, $phone_id;
 	protected $resfuse_reason, $antifraud_score, $boleto_url, $boleto_barcode;
+	protected $card_brand;
 
 	protected function generateCardHash() 
 	{
@@ -89,7 +90,10 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 	protected function updateFieldsFromResponse($first_parameter)  
 	{
 
-		$this->amount = $first_parameter["amount"] ? $first_parameter['amount'] : '';
+		if($first_parameter['amount']) {
+			$this->setAmount($first_parameter['amount']);
+		}
+
 		$this->status = $first_parameter['status'] ? $first_parameter['status'] : 'local';
 		$this->setCustomer($first_parameter['customer']);
 		if(!$first_parameter['card_hash']) { 
@@ -97,6 +101,9 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 			$this->card_holder_name = ($first_parameter["card_holder_name"]) ? $first_parameter['card_holder_name'] : '';
 			$this->card_expiracy_month = ($first_parameter["card_expiracy_month"]) ? $first_parameter['card_expiracy_month'] : '';
 			$this->card_expiracy_year = ($first_parameter["card_expiracy_year"]) ? $first_parameter['card_expiracy_year'] : '';
+			if(strlen($this->card_expiracy_year) >= '4') {
+				$this->card_expiracy_year = $this->card_expiracy_year[2] . $this->card_expiracy_year[3];
+			}
 			$this->card_cvv = $first_parameter["card_cvv"] ? $first_parameter['card_cvv'] : '';
 			$this->postback_url = ($first_parameter['postback_url']) ? $first_parameter['postback_url'] : '';
 		} elseif($first_parameter['card_hash']) {
@@ -125,6 +132,7 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 		$this->email = ($first_parameter['customer']['email']) ? $first_parameter['customer']['email'] : '';
 		$this->born_at = ($first_parameter['customer']['born_at']) ? $first_parameter['customer']['born_at'] : '';
 		$this->sex = ($first_parameter['customer']['sex']) ? $first_parameter['customer']['sex'] : '';
+		$this->card_brand = ($first_parameter['card_brand']) ? $first_parameter['card_brand'] : '';
 	}
 
 	protected function cardDataParameters() 
@@ -137,7 +145,17 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 		);
 	}
 
-	function setAmount($amount) { $this->amount = $amount; }
+	function setAmount($amount) { 
+		if($amount) {
+			$amount = trim($amount);
+			$amount = str_ireplace(',', "", $amount);
+			$amount = str_ireplace('.', "", $amount);
+			$amount = str_ireplace('R$', "", $amount);		   
+			$this->amount = $amount;
+		}	
+
+	}
+
 	function getAmount() { return $this->amount; }
 	function setCardNumber($card_number) { $this->card_number = $card_number; }
 	function getCardNumber() { return $this->card_number; }
@@ -163,6 +181,8 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 	function getDateCreated() { return $this->date_created;}
 	function getId() { return $this->id; }
 	function setId($id) {$this->id = $id;}
+	function getCardBrand() { return $this->card_brand; }
+	function setCardBrand($card_brand) {$this->card_brand = $card_brand;}
 
 	//Address Info
 	public function getStreet() { return $this->street;}

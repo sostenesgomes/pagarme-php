@@ -17,7 +17,7 @@ abstract class PagarMeTestCase extends UnitTestCase {
 		return new PagarMe_Transaction(
 			$attributes + 
 			array(
-			"amount" => 1000,
+			"amount" => 'R$ 10,00',
 			"card_number" => "4111111111111111",
 			"card_holder_name" => "Jose da Silva",
 			"card_expiracy_month" => 12,

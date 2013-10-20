@@ -62,7 +62,7 @@ class PagarMe_SubscriptionTest extends PagarMeTestCase {
 
 	public function testCreateWithPlanAndFraud() {
 		$subscription =  new PagarMe_Subscription(array(
-			'amount' => 70000,
+			'amount' => 'R$ 70.00',
 			'customer_email' => "henrique@pagar.me",
 			'customer_name' => "Henrique Silva",
 			'card_number' => '4901720080344448', 
@@ -127,7 +127,7 @@ class PagarMe_SubscriptionTest extends PagarMeTestCase {
 		$subscription->charge(3600);
 		$transactions = $subscription->getTransactions();
 
-		$this->assertEqual($transactions[1]->getAmount(), 3600);
+		$this->assertEqual($transactions[1]->getAmount(), '3600');
 	}
 }
 

@@ -7,16 +7,17 @@ class PagarMe_TransactionTest extends PagarMeTestCase {
 		$this->assertFalse($transaction->getId());
 		$transaction->charge();
 		$this->assertTrue($transaction->getId());
+
 	}
 
 	public function testCreationWithFraud() {
 		authorizeFromEnv();
 		self::setAntiFraud("false");
 		$transaction = new PagarMe_Transaction(array(
-			'card_number' => '4901720080344448', 
+			'card_number' => '4539379777968801', 
 			'card_holder_name' => "Jose da silva", 
 			'card_expiracy_month' => 11, 
-			'card_expiracy_year' => "13", 
+			'card_expiracy_year' => "2013", 
 			'card_cvv' => 356, 
 			'customer' => array(
 				'name' => "Jose da Silva",  
@@ -38,12 +39,15 @@ class PagarMe_TransactionTest extends PagarMeTestCase {
 			));
 
 		$transaction->setInstallments(6); // Número de parcelas
-		$transaction->setAmount(1000); // Set Amount
+		$transaction->setAmount('10.00'); // Set Amount
 
 		$transaction->charge();
 
 		$this->assertEqual($transaction->getStatus(), 'paid');
 		$this->assertEqual($transaction->getAmount(), '1000');
+
+		$this->assertTrue($transaction->getCardBrand());
+		$this->assertEqual($transaction->getCardBrand(), 'visa');
 
 		$this->assertEqual($transaction->getInstallments(), 6);
 
@@ -60,7 +64,7 @@ class PagarMe_TransactionTest extends PagarMeTestCase {
 		$this->assertTrue($transaction->getCustomer()->getEmail());
 		$this->assertTrue($transaction->getCustomer()->getSex());
 		$this->assertTrue($transaction->getCustomer()->getId());
-		
+
 
 		self::setAntiFraud("false");
 	}

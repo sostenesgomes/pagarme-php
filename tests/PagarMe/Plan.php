@@ -17,7 +17,7 @@ class PagarMe_PlanTest extends PagarMeTestCase {
 		$this->assertEqual($plan->getName(), $plan2->getName());
 
 		$this->expectException(new IsAExpectation('PagarMe_Exception'));
-		$plan2->setAmount('2000');
+		$plan2->setAmount('R$ 20.00');
 		$this->expectException(new IsAExpectation('PagarMe_Exception'));
 		$plan2->setDays('60');
 	} 
