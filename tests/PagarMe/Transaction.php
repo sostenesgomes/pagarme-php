@@ -10,6 +10,20 @@ class PagarMe_TransactionTest extends PagarMeTestCase {
 
 	}
 
+	public function testTransactionWithBoleto() {
+		authorizeFromEnv();
+		$transaction = new PagarMe_Transaction(array(
+			'payment_method' => 'boleto',
+			'amount' => '10000',
+			'postback_url' => 'testeee.com'
+		));
+
+		var_dump($transaction->getCardNumber());
+		$transaction->charge();
+
+		$this->assertTrue($transaction->getBoletoUrl());
+	}
+
 	public function testCreationWithFraud() {
 		authorizeFromEnv();
 		self::setAntiFraud("false");

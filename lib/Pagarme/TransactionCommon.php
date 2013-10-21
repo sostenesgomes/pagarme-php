@@ -96,18 +96,20 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 
 		$this->status = $first_parameter['status'] ? $first_parameter['status'] : 'local';
 		$this->setCustomer($first_parameter['customer']);
-		if(!$first_parameter['card_hash']) { 
-			$this->card_number = ($first_parameter["card_number"]) ? $first_parameter['card_number']  : '';
-			$this->card_holder_name = ($first_parameter["card_holder_name"]) ? $first_parameter['card_holder_name'] : '';
-			$this->card_expiracy_month = ($first_parameter["card_expiracy_month"]) ? $first_parameter['card_expiracy_month'] : '';
-			$this->card_expiracy_year = ($first_parameter["card_expiracy_year"]) ? $first_parameter['card_expiracy_year'] : '';
-			if(strlen($this->card_expiracy_year) >= '4') {
-				$this->card_expiracy_year = $this->card_expiracy_year[2] . $this->card_expiracy_year[3];
+		if($first_parameter['payment_method'] != 'boleto') { 
+			if(!$first_parameter['card_hash']) { 
+				$this->card_number = ($first_parameter["card_number"]) ? $first_parameter['card_number']  : null;
+				$this->card_holder_name = ($first_parameter["card_holder_name"]) ? $first_parameter['card_holder_name'] : '';
+				$this->card_expiracy_month = ($first_parameter["card_expiracy_month"]) ? $first_parameter['card_expiracy_month'] : '';
+				$this->card_expiracy_year = ($first_parameter["card_expiracy_year"]) ? $first_parameter['card_expiracy_year'] : '';
+				if(strlen($this->card_expiracy_year) >= '4') {
+					$this->card_expiracy_year = $this->card_expiracy_year[2] . $this->card_expiracy_year[3];
+				}
+				$this->card_cvv = $first_parameter["card_cvv"] ? $first_parameter['card_cvv'] : '';
+				$this->postback_url = ($first_parameter['postback_url']) ? $first_parameter['postback_url'] : '';
+			} elseif($first_parameter['card_hash']) {
+				$this->card_hash = $first_parameter['card_hash'];
 			}
-			$this->card_cvv = $first_parameter["card_cvv"] ? $first_parameter['card_cvv'] : '';
-			$this->postback_url = ($first_parameter['postback_url']) ? $first_parameter['postback_url'] : '';
-		} elseif($first_parameter['card_hash']) {
-			$this->card_hash = $first_parameter['card_hash'];
 		}
 
 		$this->installments = ($first_parameter['installments']) ? $first_parameter["installments"] : '';

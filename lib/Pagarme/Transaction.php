@@ -23,7 +23,7 @@ class PagarMe_Transaction extends PagarMe_TransactionCommon {
 	public function charge() 
 	{
 		try {
-			if(!$this->card_hash && $this->payment_method = 'credit_card') {
+			if(!$this->card_hash && $this->payment_method == 'credit_card') {
 				$validation_error= $this->errorInTransaction();
 				$this->card_hash = $this->generateCardHash();
 				if($validation_error) {
@@ -35,7 +35,7 @@ class PagarMe_Transaction extends PagarMe_TransactionCommon {
 				throw new Transaction_Exception("Transaction already charged!");
 			}
 
-			$transactionInfo = array("amount" => $this->amount, "installments" => $this->installments, "card_hash" => ($this->payment_method == 'credit_card') ? $this->card_hash : null, 'postback_url' => $this->postback_url );
+			$transactionInfo = array('payment_method' => $this->payment_method, "amount" => $this->amount, "installments" => $this->installments, "card_hash" => ($this->payment_method == 'credit_card') ? $this->card_hash : null, 'postback_url' => $this->postback_url );
 
 			if($this->checkCustomerInformation()) {
 				$transactionInfo = $this->mergeCustomerInformation($transactionInfo);
