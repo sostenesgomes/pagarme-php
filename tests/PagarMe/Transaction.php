@@ -18,7 +18,6 @@ class PagarMe_TransactionTest extends PagarMeTestCase {
 			'postback_url' => 'testeee.com'
 		));
 
-		var_dump($transaction->getCardNumber());
 		$transaction->charge();
 
 		$this->assertTrue($transaction->getBoletoUrl());
