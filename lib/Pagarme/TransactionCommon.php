@@ -22,27 +22,27 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 	{
 		if($this->payment_method == 'credit_card') { 
 			if(strlen($this->card_number) < 16 || strlen($this->card_number) > 20) {
-				return "Número de cartão inválido.";
+				return new PagarMe_Error(array('message' => "Número de cartão inválido.", 'parameter_name' => 'card_number', 'type' => "invalid_parameter"));
 			}
 
 			else if(strlen($this->card_holder_name) == 0) {
-				return "Nome do portador do cartão inválido.";
+				return new PagarMe_Error(array('message' => " Nome do portador do cartão inválido", 'parameter_name' => 'card_holder_name', 'type' => "invalid_parameter"));
 			}
 
 			else if($this->card_expiracy_month <= 0 || $this->card_expiracy_month > 12) {
-				return "Mês de expiração do cartão inválido";
+				return new PagarMe_Error(array('message' => "Mês de expiração do cartão inválido", 'parameter_name' => 'card_expiracy_date', 'type' => "invalid_parameter"));
 			}
 
 			else if($this->card_expiracy_year <= 0) {
-				return "Ano de expiração do cartão inválido";
+				return new PagarMe_Error(array('message' => "Ano de expiração do cartão inválido", 'parameter_name' => 'card_expiracy_date', 'type' => "invalid_parameter"));
 			}
 
 			else if($this->card_expiracy_year < substr(date('Y'),-2)) {
-				return "Cartão expirado";
+				return new PagarMe_Error(array('message' => "Cartão expirado", 'parameter_name' => 'card_expiracy_date', 'type' => "invalid_parameter"));
 			}
 
 			else if(strlen($this->card_cvv) < 3  || strlen($this->card_cvv) > 4) {
-				return "Código de segurança inválido";
+				return new PagarMe_Error(array('message' => "Código de segurança inválido", 'parameter_name' => 'card_cvv', 'type' => "invalid_parameter"));
 			}
 
 			else {
@@ -50,12 +50,12 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 			}
 		}
 		if($this->amount <= 0) {
-			return "Valor inválido";
+			return new PagarMe_Error(array('message' => "Valor inválido", 'parameter_name' => 'amount', 'type' => "invalid_parameter"));
 		}
 
 		if(checkCustomerInformation()) {
 			if(!$this->zipcode || !$this->street_number || !$this->ddd || !$this->number || !$this->name || !$this->document_number || !$this->email || !$this->sex || !$this->born_at || !$this->street || !$this->neighborhood) {
-				return "Faltam informações do cliente.	";
+				return new PagarMe_Error(array('message' => "Faltam informações do cliente", 'parameter_name' => 'customer', 'type' => "invalid_parameter"));
 			}
 		}
 
@@ -149,10 +149,10 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 
 	function setAmount($amount) { 
 		if($amount) {
-			$amount = trim($amount);
 			$amount = str_ireplace(',', "", $amount);
 			$amount = str_ireplace('.', "", $amount);
 			$amount = str_ireplace('R$', "", $amount);		   
+			$amount = trim($amount);
 			$this->amount = $amount;
 		}	
 

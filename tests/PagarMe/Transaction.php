@@ -20,7 +20,8 @@ class PagarMe_TransactionTest extends PagarMeTestCase {
 
 		$transaction->charge();
 
-		$this->assertTrue($transaction->getBoletoUrl());
+		$this->assertFalse($transaction->getBoletoUrl());
+		$this->assertEqual($transaction->getStatus(), 'waiting_payment');
 	}
 
 	public function testCreationWithFraud() {

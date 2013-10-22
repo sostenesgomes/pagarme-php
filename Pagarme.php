@@ -9,8 +9,8 @@ if (!function_exists('json_decode')) {
 
 
 require(dirname(__FILE__) . '/lib/Pagarme/Pagarme.php');
+require(dirname(__FILE__) . '/lib/Pagarme/Error.php');
 require(dirname(__FILE__) . '/lib/Pagarme/Exception.php');
-require(dirname(__FILE__) . '/lib/Pagarme/TransactionException.php');
 require(dirname(__FILE__) . '/lib/Pagarme/ApiException.php');
 require(dirname(__FILE__) . '/lib/Pagarme/RestClient.php');
 require(dirname(__FILE__) . '/lib/Pagarme/Request.php');

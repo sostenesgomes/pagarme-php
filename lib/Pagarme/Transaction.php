@@ -27,7 +27,7 @@ class PagarMe_Transaction extends PagarMe_TransactionCommon {
 				$validation_error= $this->errorInTransaction();
 				$this->card_hash = $this->generateCardHash();
 				if($validation_error) {
-					throw new Transaction_Exception($validation_error);
+					throw PagarMe_Exception::buildWithError($validation_error);
 				}
 			}
 
@@ -49,8 +49,8 @@ class PagarMe_Transaction extends PagarMe_TransactionCommon {
 
 			return $response;
 		}
-		catch(Transaction_Exception $e) {
-			throw new PagarMe_Exception($e->getMessage());
+		catch(PagarMe_Exception $e) {
+			throw $e;
 		}
 	}
 
