@@ -28,7 +28,7 @@ class PagarMe_TransactionTest extends PagarMeTestCase {
 		authorizeFromEnv();
 		self::setAntiFraud("false");
 		$transaction = new PagarMe_Transaction(array(
-			'card_number' => '4539379777968801', 
+			'card_number' => '4111111111111111', 
 			'card_holder_name' => "Jose da silva", 
 			'card_expiracy_month' => 11, 
 			'card_expiracy_year' => "2013", 
@@ -56,7 +56,6 @@ class PagarMe_TransactionTest extends PagarMeTestCase {
 		$transaction->setAmount('10.00'); // Set Amount
 
 		$transaction->charge();
-
 		$this->assertEqual($transaction->getStatus(), 'paid');
 		$this->assertEqual($transaction->getAmount(), '1000');
 

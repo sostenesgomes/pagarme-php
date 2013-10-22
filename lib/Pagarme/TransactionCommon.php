@@ -17,11 +17,28 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 		return $response['id'].'_'.base64_encode($encrypt);
 	}
 
+
+	protected function validateCreditCard($s) {
+		if(0==$s) { 
+			return(false); 
+		} // Don’t allow all zeros
+		
+		$sum=0;
+		$i=strlen($s); // Find the last character
+		$o=$i%2; // Shift odd/even for odd-length $s
+		while ($i– > 0) { // Iterate all digits backwards
+			$sum+=$s[$i]; // Add the current digit
+			// If the digit is even, add it again. Adjust for digits 10+ by subtracting 9.
+			($o==($i%2)) ? ($s[$i] > 4) ? ($sum+=($s[$i]-9)) : ($sum+=$s[$i]) : false;
+		}
+		return (0==($sum%10)) ;
+	}
+
 	//TODO Validate address and phone info
 	protected function errorInTransaction() 
 	{
 		if($this->payment_method == 'credit_card') { 
-			if(strlen($this->card_number) < 16 || strlen($this->card_number) > 20) {
+			if(strlen($this->card_number) < 16 || strlen($this->card_number) > 20 || !$this->validateCreditCard($this->card_number)) {
 				return new PagarMe_Error(array('message' => "Número de cartão inválido.", 'parameter_name' => 'card_number', 'type' => "invalid_parameter"));
 			}
 
