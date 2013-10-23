@@ -152,6 +152,7 @@ class PagarMe_TransactionCommon extends PagarMe_Model
 		$this->born_at = ($first_parameter['customer']['born_at']) ? $first_parameter['customer']['born_at'] : '';
 		$this->sex = ($first_parameter['customer']['sex']) ? $first_parameter['customer']['sex'] : '';
 		$this->card_brand = ($first_parameter['card_brand']) ? $first_parameter['card_brand'] : '';
+		$this->boleto_url = ($first_parameter['boleto_url']) ? $first_parameter['boleto_url'] : '';
 	}
 
 	protected function cardDataParameters() 
