@@ -17,10 +17,16 @@ function __autoload($class){
 	if (file_exists($file)){
 		require_once($file);
 		return;
-	}	elseif (strstr($class, "PagarMe_")) {
+	}elseif (strstr($class, "PagarMe_")) {
 		$file = $dir . str_replace("PagarMe_", "", $class) . ".php";
-		require_once($file);
-		return;
+		
+		if (file_exists($file)){
+			require_once($file);
+			return;		
+		}else{
+			throw new Exception("Unable to load" .$class);
+		}
+
 	}else{
 		throw new Exception("Unable to load" .$class);
 	}
