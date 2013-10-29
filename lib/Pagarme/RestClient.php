@@ -1,10 +1,5 @@
 <?php
 
-class RestClient_Exception extends PagarMe_Exception 
-{
-
-}
-
 class RestClient 
 {
 	private $http_client;
